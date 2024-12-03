@@ -1,25 +1,28 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState} from "react";
+import TicketBoard from './TicketBoard';
+import Header from './components/Header';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  const [groupBy, setGroupBy] = useState(() => localStorage.getItem("groupBy") || "Status");
+  const [orderBy, setOrderBy] = useState(() => localStorage.getItem("orderBy") || "Priority");
+
+  const handleGroupChange = (group) => {
+    // console.log("Group By:", group);
+    setGroupBy(group);
+    localStorage.setItem("groupBy", group); 
+  };
+
+  const handleOrderChange = (order) => {
+    // console.log("Order By:", order);
+    setOrderBy(order);
+    localStorage.setItem("orderBy", order); 
+  };
+  return (<>
+    <Header onGroupChange={handleGroupChange} onOrderChange={handleOrderChange} />
+    <TicketBoard group={groupBy} order={orderBy}/>
+    </>
   );
-}
+};
 
 export default App;
